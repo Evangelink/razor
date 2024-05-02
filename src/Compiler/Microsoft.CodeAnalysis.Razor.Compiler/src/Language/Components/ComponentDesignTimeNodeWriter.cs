@@ -80,10 +80,21 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
             // Content
             //
             // This makes it so the spacing is avoided for any formatting that happens on the generated code.
-            context.CodeWriter.WriteLine("using");
+            var usingLength = "using ".Length;
             using (context.CodeWriter.BuildLinePragma(sourceSpan, context, suppressLineDefaultAndHidden: !node.AppendLineDefaultAndHidden))
             {
-                var usingLength = "using ".Length;
+                context.AddSourceMappingFor(new SourceSpan(
+                    sourceSpan.FilePath,
+                    sourceSpan.AbsoluteIndex,
+                    sourceSpan.LineIndex,
+                    sourceSpan.CharacterIndex,
+                    usingLength));
+                context.CodeWriter.WriteLine("using");
+            }
+
+            using (context.CodeWriter.BuildLinePragma(sourceSpan, context, suppressLineDefaultAndHidden: !node.AppendLineDefaultAndHidden))
+            {
+
                 var modifiedSpan = new SourceSpan(
                     sourceSpan.FilePath,
                     sourceSpan.AbsoluteIndex + usingLength,
@@ -1252,7 +1263,7 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
                 new IntermediateToken
                 {
                     Kind = TokenKind.CSharp,
-                    Content = $"{DesignTimeVariable} = (global::{ComponentsApi.IComponentRenderMode.FullTypeName})(" 
+                    Content = $"{DesignTimeVariable} = (global::{ComponentsApi.IComponentRenderMode.FullTypeName})("
                 },
                 new CSharpCodeIntermediateNode
                 {
