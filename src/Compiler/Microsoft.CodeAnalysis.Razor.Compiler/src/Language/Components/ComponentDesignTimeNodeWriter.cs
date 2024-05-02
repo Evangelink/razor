@@ -74,10 +74,25 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
 
         if (node.Source is { FilePath: not null } sourceSpan)
         {
+            // Write in the form of
+            // using
+            // #line ...
+            // Content
+            //
+            // This makes it so the spacing is avoided for any formatting that happens on the generated code.
+            context.CodeWriter.WriteLine("using");
             using (context.CodeWriter.BuildLinePragma(sourceSpan, context, suppressLineDefaultAndHidden: !node.AppendLineDefaultAndHidden))
             {
-                context.AddSourceMappingFor(node);
-                context.CodeWriter.WriteUsing(node.Content);
+                var usingLength = "using ".Length;
+                var modifiedSpan = new SourceSpan(
+                    sourceSpan.FilePath,
+                    sourceSpan.AbsoluteIndex + usingLength,
+                    sourceSpan.LineIndex,
+                    sourceSpan.CharacterIndex + usingLength,
+                    node.Content.Length);
+
+                context.AddSourceMappingFor(modifiedSpan);
+                context.CodeWriter.WriteLine(node.Content);
             }
         }
         else
