@@ -94,16 +94,26 @@ internal class ComponentDesignTimeNodeWriter : ComponentNodeWriter
 
             using (context.CodeWriter.BuildLinePragma(sourceSpan, context, suppressLineDefaultAndHidden: !node.AppendLineDefaultAndHidden))
             {
+                var semicolonLength = node.HasExplicitSemicolon ? 0 : 1;
 
                 var modifiedSpan = new SourceSpan(
                     sourceSpan.FilePath,
                     sourceSpan.AbsoluteIndex + usingLength,
                     sourceSpan.LineIndex,
                     sourceSpan.CharacterIndex + usingLength,
-                    node.Content.Length);
+                    node.Content.Length + semicolonLength);
 
                 context.AddSourceMappingFor(modifiedSpan);
-                context.CodeWriter.WriteLine(node.Content);
+                context.CodeWriter.Write(node.Content);
+
+                if (!node.HasExplicitSemicolon)
+                {
+                    context.CodeWriter.WriteLine("");
+                }
+                else
+                {
+                    context.CodeWriter.WriteLine();
+                }
             }
         }
         else
