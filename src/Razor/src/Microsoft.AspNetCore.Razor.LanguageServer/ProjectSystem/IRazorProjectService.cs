@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.AspNetCore.Razor.ProjectSystem;
 using Microsoft.AspNetCore.Razor.Serialization;
-using Microsoft.CodeAnalysis.Razor.ProjectSystem;
 using Microsoft.CodeAnalysis.Text;
 
 namespace Microsoft.AspNetCore.Razor.LanguageServer.ProjectSystem;
@@ -30,6 +29,16 @@ internal interface IRazorProjectService
 
     Task UpdateProjectAsync(
         ProjectKey projectKey,
+        RazorConfiguration? configuration,
+        string? rootNamespace,
+        string displayName,
+        ProjectWorkspaceState projectWorkspaceState,
+        ImmutableArray<DocumentSnapshotHandle> documents,
+        CancellationToken cancellationToken);
+
+    Task AddOrUpdateProjectAsync(
+        ProjectKey projectKey,
+        string filePath,
         RazorConfiguration? configuration,
         string? rootNamespace,
         string displayName,
