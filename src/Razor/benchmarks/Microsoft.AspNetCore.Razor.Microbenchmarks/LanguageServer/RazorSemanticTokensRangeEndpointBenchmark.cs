@@ -32,11 +32,7 @@ public class RazorSemanticTokensRangeEndpointBenchmark : RazorLanguageServerBenc
 
     private SemanticTokensRangeEndpoint SemanticTokensRangeEndpoint { get; set; }
 
-    private IDocumentVersionCache VersionCache { get; set; }
-
     private Uri DocumentUri => DocumentContext.Uri;
-
-    private IDocumentSnapshot DocumentSnapshot => DocumentContext.Snapshot;
 
     private VersionedDocumentContext DocumentContext { get; set; }
 
@@ -62,8 +58,6 @@ public class RazorSemanticTokensRangeEndpointBenchmark : RazorLanguageServerBenc
     {
         EnsureServicesInitialized();
 
-        var loggerFactory = RazorLanguageServerHost.GetRequiredService<ILoggerFactory>();
-
         var projectRoot = Path.Combine(RepoRoot, "src", "Razor", "test", "testapps", "ComponentApp");
         ProjectFilePath = Path.Combine(projectRoot, "ComponentApp.csproj");
         PagesDirectory = Path.Combine(projectRoot, "Components", "Pages");
@@ -86,9 +80,6 @@ public class RazorSemanticTokensRangeEndpointBenchmark : RazorLanguageServerBenc
             Start = new Position { Line = 0, Character = 0 },
             End = new Position { Line = text.Lines.Count - 1, Character = text.Lines.Last().Span.Length - 1 }
         };
-
-        var documentVersion = 1;
-        VersionCache.TrackDocumentVersion(DocumentSnapshot, documentVersion);
 
         RequestContext = new RazorRequestContext(DocumentContext, RazorLanguageServerHost.GetRequiredService<ILspServices>(), "lsp/method", uri: null);
 
@@ -137,7 +128,6 @@ public class RazorSemanticTokensRangeEndpointBenchmark : RazorLanguageServerBenc
     private void EnsureServicesInitialized()
     {
         RazorSemanticTokenService = RazorLanguageServerHost.GetRequiredService<IRazorSemanticTokensInfoService>();
-        VersionCache = RazorLanguageServerHost.GetRequiredService<IDocumentVersionCache>();
     }
 
     internal class TestCustomizableRazorSemanticTokensInfoService : RazorSemanticTokensInfoService

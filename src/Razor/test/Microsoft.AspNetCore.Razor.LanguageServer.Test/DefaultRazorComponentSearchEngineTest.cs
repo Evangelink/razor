@@ -46,8 +46,6 @@ public class DefaultRazorComponentSearchEngineTest(ITestOutputHelper testOutput)
     {
         _projectManager = CreateProjectSnapshotManager();
 
-        var documentVersionCache = new DocumentVersionCache(_projectManager);
-
         var remoteTextLoaderFactoryMock = new StrictMock<RemoteTextLoaderFactory>();
         remoteTextLoaderFactoryMock
             .Setup(x => x.Create(It.IsAny<string>()))
@@ -63,7 +61,6 @@ public class DefaultRazorComponentSearchEngineTest(ITestOutputHelper testOutput)
 
         var projectService = new TestRazorProjectService(
             remoteTextLoaderFactoryMock.Object,
-            documentVersionCache,
             _projectManager,
             LoggerFactory);
 

@@ -47,11 +47,9 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         var razorFilePath = "c:/path/index.razor";
         var uri = new Uri(razorFilePath);
 
-        var documentVersionCache = new DocumentVersionCache(projectManager);
         await projectManager.UpdateAsync(updater => updater.DocumentOpened(project.Key, razorFilePath, SourceText.From("<div></div>")));
         var documentSnapshot = projectManager.GetLoadedProject(project.Key).GetDocument(razorFilePath).AssumeNotNull();
-        documentVersionCache.TrackDocumentVersion(documentSnapshot, 1);
-        var documentContextFactory = new DocumentContextFactory(projectManager, documentVersionCache, LoggerFactory);
+        var documentContextFactory = new DocumentContextFactory(projectManager, LoggerFactory);
         Assert.True(documentContextFactory.TryCreateForOpenDocument(uri, null, out var documentContext));
 
         var clientConnection = new Mock<IClientConnection>(MockBehavior.Strict);
@@ -109,11 +107,9 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         var razorFilePath = "c:/path/index.razor";
         var uri = new Uri(razorFilePath);
 
-        var documentVersionCache = new DocumentVersionCache(projectManager);
         await projectManager.UpdateAsync(updater => updater.DocumentOpened(project.Key, razorFilePath, SourceText.From("<div></div>")));
         var documentSnapshot = projectManager.GetLoadedProject(project.Key).GetDocument(razorFilePath).AssumeNotNull();
-        documentVersionCache.TrackDocumentVersion(documentSnapshot, 1);
-        var documentContextFactory = new DocumentContextFactory(projectManager, documentVersionCache, LoggerFactory);
+        var documentContextFactory = new DocumentContextFactory(projectManager, LoggerFactory);
         Assert.True(documentContextFactory.TryCreateForOpenDocument(uri, null, out var documentContext));
 
         var clientConnection = new Mock<IClientConnection>(MockBehavior.Strict);
@@ -182,11 +178,9 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         var razorFilePath = "c:/path/index.razor";
         var uri = new Uri(razorFilePath);
 
-        var documentVersionCache = new DocumentVersionCache(projectManager);
         await projectManager.UpdateAsync(updater => updater.DocumentOpened(project.Key, razorFilePath, SourceText.From("<div></div>")));
         var documentSnapshot = projectManager.GetLoadedProject(project.Key).GetDocument(razorFilePath).AssumeNotNull();
-        documentVersionCache.TrackDocumentVersion(documentSnapshot, 1);
-        var documentContextFactory = new DocumentContextFactory(projectManager, documentVersionCache, LoggerFactory);
+        var documentContextFactory = new DocumentContextFactory(projectManager, LoggerFactory);
         Assert.True(documentContextFactory.TryCreateForOpenDocument(uri, null, out var documentContext));
 
         var clientConnection = new Mock<IClientConnection>(MockBehavior.Strict);
@@ -406,11 +400,9 @@ public class TextDocumentUriPresentationEndpointTests(ITestOutputHelper testOutp
         var razorFilePath = "c:/path/index.razor";
         var uri = new Uri(razorFilePath);
 
-        var documentVersionCache = new DocumentVersionCache(projectManager);
         await projectManager.UpdateAsync(updater => updater.DocumentOpened(project.Key, razorFilePath, SourceText.From("<div></div>")));
         var documentSnapshot = projectManager.GetLoadedProject(project.Key).GetDocument(razorFilePath).AssumeNotNull();
-        documentVersionCache.TrackDocumentVersion(documentSnapshot, 1);
-        var documentContextFactory = new DocumentContextFactory(projectManager, documentVersionCache, LoggerFactory);
+        var documentContextFactory = new DocumentContextFactory(projectManager, LoggerFactory);
         Assert.True(documentContextFactory.TryCreateForOpenDocument(uri, null, out var documentContext));
 
         var clientConnection = new Mock<IClientConnection>(MockBehavior.Strict);
