@@ -334,6 +334,7 @@ extends:
                 --publish
                 --configuration $(_BuildConfig)
                 --prepareMachine
+                --test
                 $(_BuildArgs)
                 $(_InternalRuntimeDownloadArgs)
               name: Build
@@ -386,6 +387,7 @@ extends:
                 --publish
                 --configuration $(_BuildConfig)
                 --prepareMachine
+                --test
                 $(_BuildArgs)
                 $(_InternalRuntimeDownloadArgs)
               name: Build
