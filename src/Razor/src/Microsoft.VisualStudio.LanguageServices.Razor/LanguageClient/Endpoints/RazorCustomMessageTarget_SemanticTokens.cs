@@ -83,6 +83,12 @@ internal partial class RazorCustomMessageTarget
             return null;
         }
 
+        requestParams.TextDocument = new OptionalVersionedTextDocumentIdentifier()
+        {
+            Uri = csharpDoc.Uri,
+            Version = (int)semanticTokensParams.RequiredHostDocumentVersion,
+        };
+
         if (synchronized && csharpDoc.HostDocumentSyncVersion == 1)
         {
             // HACK: Workaround for https://github.com/dotnet/razor/issues/9197 to stop Roslyn NFWs
