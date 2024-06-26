@@ -23,7 +23,7 @@ internal sealed class InlayHintEndpoint(LanguageServerFeatureOptions featureOpti
 
     public void ApplyCapabilities(VSInternalServerCapabilities serverCapabilities, VSInternalClientCapabilities clientCapabilities)
     {
-        serverCapabilities.EnableInlayHints();
+        //serverCapabilities.EnableInlayHints();
     }
 
     public TextDocumentIdentifier GetTextDocumentIdentifier(InlayHintParams request)
